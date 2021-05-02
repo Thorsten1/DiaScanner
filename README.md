@@ -1,5 +1,5 @@
 # DiaScanner
-This is a small python App that will preview the camera-feed, gives you the option to manipulate the image (e.g. rotate) and allows you to store images.
+This is a small python App using opencv that will preview the camera-feed, gives you the option to manipulate the image (e.g. rotate) and allows you to store images.
 
 ## Usage
 ~~~ bash
