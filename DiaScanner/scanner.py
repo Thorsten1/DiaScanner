@@ -24,7 +24,7 @@ class Scanner:
         """
         self.camera = cv2.VideoCapture(camera_id)
         if not self.camera.isOpened():
-            raise InvalidCaptureDevice(f"The provided camera_id has now assigned device.")
+            raise InvalidCaptureDevice(f"The provided camera_id has no assigned device.")
         self.path = path
         self.base_name = base_name
         self.suffix = suffix
@@ -32,12 +32,15 @@ class Scanner:
 
     def preview(self):
         """Show a preview Window with the current camera input"""
+        invert = False
         cv2.namedWindow("Dia Scanner")
         while True:
             rval, frame = self.camera.read()
             frame = cv2.resize(frame, (1920, 1080))
             if self.rotate() is not None:
                 frame = cv2.rotate(frame, self.rotate())
+            if invert:
+                frame = cv2.bitwise_not(frame)
             cv2.imshow("Dia Scanner", frame)
             # Get key for action
             key = cv2.waitKey(20)
@@ -45,6 +48,8 @@ class Scanner:
                 break
             if key == 99 or key == 32:  # c or space for capture
                 self.capture(frame)
+            if key == 105:  # i for invert image
+                invert = not invert
             if key == 108:  # l for rotate left
                 self.rotate(270)
             if key == 114:  # r for rotate right
